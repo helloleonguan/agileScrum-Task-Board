@@ -3,13 +3,18 @@
  */
 public enum Status {
     TO_DO("To Do"),
-    IN_PROGRESS("In Progress"),
+    IN_PROCESS("In Process"),
     TO_VERIFY("To Verify"),
     DONE("Done");
 
-    private String status; // For printing Status.DONE.status. 
+    private String status; // For printing Status.DONE.status.
 
     Status(String s) {
         this.status = s;
+    }
+
+    @Override
+    public String toString() {
+        return this.status;
     }
 }
