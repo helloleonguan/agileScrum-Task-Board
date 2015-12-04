@@ -2,9 +2,9 @@
  * Created by Administrator on 2015/12/2/0002.
  */
 public class Story {
-    private String Sid;
-    private String description;
-    private boolean complete;
+    public String Sid;
+    public String description;
+    public boolean complete;
 
     public Story(String Sid, String description){
         this.Sid = Sid;

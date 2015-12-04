@@ -2,11 +2,11 @@
  * Created by Administrator on 2015/12/2/0002.
  */
 public class Task {
-    private String Sid;
-    private String Tid;
-    private String description;
-    private Status taskStatus;
-    private boolean movable;
+    public String Sid;
+    public String Tid;
+    public String description;
+    public Status taskStatus;
+    public boolean movable;
 
     public Task(String Sid, String Tid, String description) {
         this.Sid = Sid;
