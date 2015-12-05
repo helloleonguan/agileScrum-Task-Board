@@ -4,16 +4,16 @@ import java.util.HashMap;
  * Created by Administrator on 2015/12/3/0003.
  */
 public class Board {
-    private HashMap<String, Story> stories = new HashMap<>(); // Key is the story id and the value is the Story.
-    private HashMap<String, Task> tasks = new HashMap<>(); // Key is the task id and the value is the Task.
+    public HashMap<String, Story> stories = new HashMap<>(); // Key is the story id and the value is the Story.
+    public HashMap<String, Task> tasks = new HashMap<>(); // Key is the (story id +" "+ task id) and the value is the Task.
 
 
     public boolean createStory(String Sid, String description) {
         return false;
     }
 
-    public boolean listStory() {
-        return false;
+    public String listStory() {
+        return "";
     }
 
     public boolean deleteStory(String Sid) {
@@ -28,8 +28,8 @@ public class Board {
         return false;
     }
 
-    public boolean listTasks(String Sid) {
-        return false;
+    public String listTasks(String Sid) {
+        return "";
     }
 
     public boolean deleteTask(String Sid, String Tid ) {

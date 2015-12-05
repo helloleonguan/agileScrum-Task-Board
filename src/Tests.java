@@ -59,47 +59,130 @@ public class Tests {
     // To test the Board class
     @Test
     public void  createStoryTest() {
-
+        Board board = new Board();
+        assertTrue(board.createStory("A01", "To complete Story A01"));
+        assertTrue(board.stories.containsKey("A01"));
+        assertTrue(board.stories.get("A01").description.equals("To complete Story A01"));
+        assertTrue(board.createStory("A02", "To complete Story A02"));
+        assertTrue(board.stories.containsKey("A02"));
+        assertTrue(board.stories.get("A02").description.equals("To complete Story A02"));
+        assertTrue(!board.createStory("A01", "To complete Story A01"));
     }
 
     @Test
     public void listStoryTest() {
-
+        Board board = new Board();
+        assertTrue(board.listStory().equals(""));
+        board.createStory("A01", "To complete Story A01");
+        assertTrue(board.listStory().equals("A01: To complete Story A01\n"));
+        board.createStory("A02", "To complete Story A02");
+        assertTrue(board.listStory().equals("A01: To complete Story A01\nA02: To complete Story A02\n") ||
+                board.listStory().equals("A02: To complete Story A02\nA01: To complete Story A01\n"));
     }
 
     @Test
     public void deleteStoryTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createStory("A03", "To complete Story A03");
+        board.createStory("A04", "To complete Story A04");
+        assertTrue(board.stories.containsKey("A03"));
+        assertTrue(board.deleteStory("A03"));
+        assertTrue(!board.stories.containsKey("A03"));
+        assertTrue(!board.deleteStory("A05"));
     }
 
     @Test
     public void completeStoryTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createStory("A03", "To complete Story A03");
+        assertTrue(!board.stories.get("A02").complete);
+        assertTrue(board.completeStory("A02"));
+        assertTrue(board.stories.get("A02").complete);
+        assertTrue(!board.completeStory("A05"));
     }
 
     @Test
     public void createTaskTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createStory("A03", "To complete Story A03");
+        assertTrue(!board.createTask("A04", "0001", "To complete Task A04-0001"));
+        board.createStory("A04", "To complete Story A04");
+        assertTrue(board.createTask("A04", "0001", "To complete Task A04-0001"));
+        assertTrue(board.tasks.containsKey("A04 0001"));
+        assertTrue(board.tasks.get("0001").description.equals("To complete Task A04-0001"));
+        assertTrue(board.tasks.get("0001").movable);
+        assertTrue(board.tasks.get("0001").taskStatus == Status.TO_DO);
     }
 
     @Test
     public void listTasksTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        assertTrue(board.listTasks("A02").equals(""));
+        assertTrue(board.listTasks("A01").equals(""));
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        assertTrue(board.listTasks("A01").equals("A01 0001: To complete Task A01-0001\n"));
+        board.createTask("A01", "0002", "To complete Task A01-0002");
+        assertTrue(board.listTasks("A01").equals("A01 0001: To complete Task A01-0001\nA01 0002: To complete Task A01-0002\n")
+            || board.listTasks("A01").equals("A01 0002: To complete Task A01-0002\nA01 0001: To complete Task A01-0001\n"));
     }
 
     @Test
     public void deleteTaskTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        board.createTask("A01", "0002", "To complete Task A01-0002");
+        assertTrue(board.tasks.containsKey("A01 0001"));
+        assertTrue(board.deleteTask("A01", "0001"));
+        assertTrue(!board.tasks.containsKey("A01 0001"));
+        assertTrue(!board.deleteTask("A02", "0001"));
+        assertTrue(!board.deleteTask("A02", "0003"));
     }
 
     @Test
     public void moveTaskTest() {
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        board.createTask("A01", "0002", "To complete Task A01-0002");
+        assertTrue(!board.moveTask("A01", "0003", Status.IN_PROCESS));
+        assertTrue(!board.moveTask("A03", "0002", Status.TO_VERIFY));
+        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
+        assertTrue(!board.moveTask("A02", "0002",Status.TO_VERIFY));
+        assertTrue(!board.moveTask("A02", "0002",Status.DONE));
+        assertTrue(board.moveTask("A02", "0002", Status.TO_VERIFY));
+        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
+        assertTrue(board.moveTask("A02", "0002", Status.TO_DO));
+        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
+        assertTrue(board.moveTask("A02", "0002", Status.TO_VERIFY));
+        assertTrue(board.moveTask("A02", "0002", Status.DONE));
+        assertTrue(!board.moveTask("A02", "0002", Status.IN_PROCESS));
+        assertTrue(!board.moveTask("A02", "0002", Status.TO_DO));
+        assertTrue(!board.moveTask("A02", "0002", Status.TO_VERIFY));
 
     }
 
     @Test
     public void updateTaskTest() {
-
+        Board board = new Board();
+        board.createStory("A01", "To complete Story A01");
+        board.createStory("A02", "To complete Story A02");
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        board.createTask("A01", "0002", "To complete Task A01-0002");
+        assertTrue(!board.updateTask("A03", "0001", "To complete Task A03-0001"));
+        assertTrue(!board.updateTask("A02","0002", "To complete Task A02-0002"));
+        assertTrue(board.updateTask("A01","0001", "To complete Task A01-0001#"));
+        assertTrue(board.tasks.containsKey("A01 0001"));
+        assertTrue(board.tasks.get("A01 0001").description.equals("To complete Task A01-0001#"));
     }
 
 
