@@ -115,9 +115,9 @@ public class Tests {
         board.createStory("A04", "To complete Story A04");
         assertTrue(board.createTask("A04", "0001", "To complete Task A04-0001"));
         assertTrue(board.tasks.containsKey("A04 0001"));
-        assertTrue(board.tasks.get("0001").description.equals("To complete Task A04-0001"));
-        assertTrue(board.tasks.get("0001").movable);
-        assertTrue(board.tasks.get("0001").taskStatus == Status.TO_DO);
+        assertTrue(board.tasks.get("A04 0001").description.equals("To complete Task A04-0001"));
+        assertTrue(board.tasks.get("A04 0001").movable);
+        assertTrue(board.tasks.get("A04 0001").taskStatus == Status.TO_DO);
     }
 
     @Test
@@ -156,19 +156,17 @@ public class Tests {
         board.createTask("A01", "0002", "To complete Task A01-0002");
         assertTrue(!board.moveTask("A01", "0003", Status.IN_PROCESS));
         assertTrue(!board.moveTask("A03", "0002", Status.TO_VERIFY));
-        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
-        assertTrue(!board.moveTask("A02", "0002",Status.TO_VERIFY));
-        assertTrue(!board.moveTask("A02", "0002",Status.DONE));
-        assertTrue(board.moveTask("A02", "0002", Status.TO_VERIFY));
-        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
-        assertTrue(board.moveTask("A02", "0002", Status.TO_DO));
-        assertTrue(board.moveTask("A02", "0002", Status.IN_PROCESS));
-        assertTrue(board.moveTask("A02", "0002", Status.TO_VERIFY));
-        assertTrue(board.moveTask("A02", "0002", Status.DONE));
-        assertTrue(!board.moveTask("A02", "0002", Status.IN_PROCESS));
-        assertTrue(!board.moveTask("A02", "0002", Status.TO_DO));
-        assertTrue(!board.moveTask("A02", "0002", Status.TO_VERIFY));
-
+        assertTrue(board.moveTask("A01", "0002", Status.IN_PROCESS));
+        assertTrue(board.moveTask("A01", "0002",Status.TO_VERIFY));
+        assertTrue(board.moveTask("A01", "0002", Status.TO_DO));
+        assertTrue(!board.moveTask("A01", "0002", Status.TO_VERIFY));
+        assertTrue(!board.moveTask("A01", "0002", Status.DONE));
+        assertTrue(board.moveTask("A01", "0002", Status.IN_PROCESS));
+        assertTrue(board.moveTask("A01", "0002",Status.TO_VERIFY));
+        assertTrue(board.moveTask("A01", "0002",Status.DONE));
+        assertTrue(!board.moveTask("A01", "0002", Status.TO_VERIFY));
+        assertTrue(!board.moveTask("A01", "0002", Status.IN_PROCESS));
+        assertTrue(!board.moveTask("A01", "0002", Status.TO_DO));
     }
 
     @Test

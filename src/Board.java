@@ -9,38 +9,100 @@ public class Board {
 
 
     public boolean createStory(String Sid, String description) {
-        return false;
+        if (stories.containsKey(Sid)) {
+            return false;
+        } else {
+            Story s = new Story(Sid,description);
+            stories.put(Sid,s);
+            return true;
+        }
     }
 
     public String listStory() {
-        return "";
+        String rst = "";
+        for(String id : stories.keySet()) {
+            rst += id + ": " + stories.get(id).description + "\n";
+        }
+        return rst;
     }
 
     public boolean deleteStory(String Sid) {
-        return false;
+        if (! stories.containsKey(Sid)) {
+            return false;
+        } else {
+            stories.remove(Sid);
+            return true;
+        }
     }
 
     public boolean completeStory(String Sid) {
-        return false;
+        if (! stories.containsKey(Sid)) {
+            return false;
+        } else {
+            stories.get(Sid).complete = true;
+            return true;
+        }
     }
 
     public boolean createTask(String storyID, String Tid, String description) {
-        return false;
+        if(tasks.containsKey(storyID + " " +Tid) || (! stories.containsKey(storyID))) {
+            return false;
+        } else {
+            Task t = new Task(storyID, Tid, description);
+            tasks.put(storyID + " " +Tid, t);
+            return true;
+        }
     }
 
     public String listTasks(String Sid) {
-        return "";
+        String rst = "";
+        if (! stories.containsKey(Sid)) {
+            return rst;
+        } else {
+            for (String k : tasks.keySet()) {
+                if ( tasks.get(k).Sid.equals(Sid)) {
+                    rst += k + ": " + tasks.get(k).description + "\n";
+                }
+            }
+            return rst;
+        }
     }
 
     public boolean deleteTask(String Sid, String Tid ) {
-        return false;
+        if (! tasks.containsKey(Sid + " " + Tid)) {
+            return false;
+        } else {
+            tasks.remove(Sid + " " + Tid);
+            return true;
+        }
     }
 
     public boolean moveTask(String Sid, String Tid, Status s){
-        return false;
+        if (! tasks.containsKey(Sid + " " + Tid)) {
+            return false;
+        } else {
+            Status stat = tasks.get(Sid + " " + Tid).taskStatus;
+            if (stat == Status.DONE) {
+                return false;
+            } else {
+                if (stat == Status.TO_DO && (s == Status.TO_VERIFY || s == Status.DONE)) {
+                    return false;
+                } else if (stat == Status.IN_PROCESS && s == Status.DONE) {
+                    return false;
+                } else {
+                    tasks.get(Sid + " " + Tid).taskStatus = s;
+                    return true;
+                }
+            }
+        }
     }
 
     public boolean updateTask(String Sid, String Tid, String description) {
-        return false;
+        if (! tasks.containsKey(Sid + " " + Tid)) {
+            return false;
+        } else {
+            tasks.get(Sid + " " + Tid).description = description;
+            return true;
+        }
     }
 }
