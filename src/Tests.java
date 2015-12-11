@@ -87,10 +87,15 @@ public class Tests {
         board.createStory("A02", "To complete Story A02");
         board.createStory("A03", "To complete Story A03");
         board.createStory("A04", "To complete Story A04");
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        board.createTask("A01", "0002", "To complete Task A01-0002");
         assertTrue(board.stories.containsKey("A03"));
         assertTrue(board.deleteStory("A03"));
         assertTrue(!board.stories.containsKey("A03"));
         assertTrue(!board.deleteStory("A05"));
+        assertTrue(board.deleteStory("A01"));
+        assertTrue(!board.tasks.containsKey("A01 0001"));
+        assertTrue(!board.tasks.containsKey("A01 0002"));
     }
 
     @Test
@@ -99,10 +104,17 @@ public class Tests {
         board.createStory("A01", "To complete Story A01");
         board.createStory("A02", "To complete Story A02");
         board.createStory("A03", "To complete Story A03");
+        board.createTask("A01", "0001", "To complete Task A01-0001");
+        board.createTask("A01", "0002", "To complete Task A01-0002");
         assertTrue(!board.stories.get("A02").complete);
         assertTrue(board.completeStory("A02"));
         assertTrue(board.stories.get("A02").complete);
         assertTrue(!board.completeStory("A05"));
+        assertTrue(!board.completeStory("A01"));
+        board.tasks.get("A01 0001").taskStatus = Status.DONE;
+        assertTrue(!board.completeStory("A01"));
+        board.tasks.get("A01 0002").taskStatus = Status.DONE;
+        assertTrue(board.completeStory("A01"));
     }
 
     @Test

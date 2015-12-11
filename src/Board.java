@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -31,12 +32,29 @@ public class Board {
             return false;
         } else {
             stories.remove(Sid);
+            ArrayList<String> deleteGroup = new ArrayList<>();
+            for (Task t : tasks.values()) {
+                if (t.Sid.equals(Sid)) {
+                    deleteGroup.add(t.Sid + " " + t.Tid);
+                }
+            }
+            for (String id: deleteGroup) {
+                tasks.remove(id);
+            }
             return true;
         }
     }
 
     public boolean completeStory(String Sid) {
-        if (! stories.containsKey(Sid)) {
+        boolean flag = true;
+        for (Task t: tasks.values()) {
+            if (t.taskStatus != Status.DONE && t.Sid.equals(Sid)) {
+                flag = false;
+                break;
+            }
+        }
+
+        if ((!stories.containsKey(Sid)) || !flag ) {
             return false;
         } else {
             stories.get(Sid).complete = true;
